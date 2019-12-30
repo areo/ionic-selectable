@@ -8,7 +8,6 @@ const gulp = require('gulp'),
   ngPackagr = require('ng-packagr'),
   ngPackagePath = path.normalize(path.join(__dirname, './ng-package.json')),
   tsConfigPath = path.normalize(path.join(__dirname, './tsconfig.dist.json')),
-  packageConfig = JSON.parse(fs.readFileSync('./package.json')),
   paths = {
     gulp: 'node_modules/gulp/bin/gulp.js',
     ngPackagr: 'node_modules/ng-packagr/cli/main.js',
@@ -16,26 +15,26 @@ const gulp = require('gulp'),
       root: 'images/'
     },
     src: {
-      css: `src/app/components/${packageConfig.name}/${packageConfig.name}.component.scss`
+      css: `src/app/components/ionic-selectable/ionic-selectable.component.scss`
     },
     dist: {
       root: 'dist/',
       package: 'dist/package.json',
       bundles: {
         root: 'dist/bundles/',
-        file: `dist/bundles/${packageConfig.name}.umd.js`,
-        mapFile: `dist/bundles/${packageConfig.name}.umd.js.map`,
-        minFile: `${packageConfig.name}.umd.min.js`
+        file: `dist/bundles/areo-ionic-selectable.umd.js`,
+        mapFile: `dist/bundles/areo-ionic-selectable.umd.js.map`,
+        minFile: `areo-ionic-selectable.umd.min.js`
       },
       esm5: {
         root: 'dist/esm5/',
-        file: `dist/esm5/${packageConfig.name}.js`,
-        minFile: `${packageConfig.name}.min.js`
+        file: `dist/esm5/areo-ionic-selectable.js`,
+        minFile: `areo-ionic-selectable.min.js`
       },
       esm2015: {
         root: 'dist/esm2015/',
-        file: `dist/esm2015/${packageConfig.name}.js`,
-        minFile: `${packageConfig.name}.min.js`
+        file: `dist/esm2015/areo-ionic-selectable.js`,
+        minFile: `areo-ionic-selectable.min.js`
       }
     }
   };
@@ -46,7 +45,7 @@ async function copyCss() {
       // Copy original SCSS file to "module" folder from package.json.
       // That's where Ionic will be looking for it.
       fs.createReadStream(paths.src.css).pipe(
-        fs.createWriteStream(`${paths.dist.esm5.root}${packageConfig.name}.component.scss`)
+        fs.createWriteStream(`${paths.dist.esm5.root}ionic-selectable.component.scss`)
           .on('error', reject)
           .on('close', resolve)
       );
@@ -58,7 +57,7 @@ async function copyCss() {
         .pipe(sass({
           outputStyle: 'compressed'
         }))
-        .pipe(rename(`${packageConfig.name}.component.min.css`))
+        .pipe(rename(`ionic-selectable.component.min.css`))
         .pipe(gulp.dest(paths.dist.esm5.root))
         .on('error', reject)
         .on('end', resolve);
